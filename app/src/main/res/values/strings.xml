@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">TaskApp</string>
+    <string name="manage_task">مدیریت وظایف</string>
+    <string name="todo">todo</string>
+    <string name="true_work">انجام شده</string>
+    <string name="false_work">انجام نشده</string>
+    <string name="add_task">اضافه کردن وظیفه</string>
+    <string name="hint_task">وظیفه را وارد کنید</string>
+    <string name="save">ذخیره کردن</string>
+    <string name="cancel">منصرف شدن</string>
+</resources>
