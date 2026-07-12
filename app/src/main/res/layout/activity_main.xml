@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layoutDirection="ltr"
-    android:background="@color/main"
+    android:background="@color/background_dark"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:layout_marginEnd="24dp"
-        android:textColor="@color/white"
+        android:textColor="@color/text_primary_dark"
         android:textSize="28sp"
         android:textStyle="bold"
         android:text="@string/manage_task"
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:text="@string/true_work"
-            android:textColor="@color/white"
+            android:textColor="@color/text_primary_dark"
             android:textSize="22sp" />
 
         <RadioButton
@@ -59,7 +59,7 @@
             android:layoutDirection="rtl"
             android:layout_marginEnd="16dp"
             android:text="@string/false_work"
-            android:textColor="@color/white"
+            android:textColor="@color/text_primary_dark"
             android:textSize="22sp" />
 
     </RadioGroup>
@@ -71,7 +71,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         tools:text="کارهای انجام شده"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_secondary_dark"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -94,6 +94,7 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_plus"
         android:contentDescription="@string/todo"
+        android:backgroundTint="@color/accent_purple"
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"

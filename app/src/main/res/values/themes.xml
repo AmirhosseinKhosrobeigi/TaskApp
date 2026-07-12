@@ -1,16 +1,37 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+    <!-- Base application theme - Premium Dark Theme -->
     <style name="Theme.TaskApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
+        <!-- Primary brand color - Deep Purple -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
+        
+        <!-- Secondary brand color - Electric Blue -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
+        <item name="colorOnSecondary">@color/background_dark</item>
+        
+        <!-- Background colors -->
+        <item name="android:colorBackground">@color/background_dark</item>
+        <item name="colorSurface">@color/surface_dark</item>
+        <item name="colorOnSurface">@color/text_primary_dark</item>
+        
+        <!-- Status bar and navigation bar -->
+        <item name="android:statusBarColor">@color/purple_700</item>
+        <item name="android:navigationBarColor">@color/background_dark</item>
+        
+        <!-- Text colors -->
+        <item name="android:textColorPrimary">@color/text_primary_dark</item>
+        <item name="android:textColorSecondary">@color/text_secondary_dark</item>
+        
+        <!-- Checkbox and button colors -->
+        <item name="colorControlNormal">@color/accent_purple</item>
+        <item name="colorControlActivated">@color/accent_blue</item>
+        <item name="colorControlHighlight">@color/accent_purple</item>
+        
+        <!-- Switch and radio button -->
+        <item name="colorSwitchThumbNormal">@color/surface_variant_dark</item>
+        
         <!-- Customize your theme here. -->
     </style>
 </resources>
