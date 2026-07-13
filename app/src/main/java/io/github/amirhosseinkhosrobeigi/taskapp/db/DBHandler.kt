@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import io.github.amirhosseinkhosrobeigi.taskapp.db.dao.TaskDAO
 import io.github.amirhosseinkhosrobeigi.taskapp.db.model.TaskEntity
 
@@ -18,27 +20,37 @@ abstract class DBHandler : RoomDatabase() {
     companion object {
 
         private const val DATABASE_NAME = "task_database"
-        const val DATABASE_VERSION = 1
+        const val DATABASE_VERSION = 2
 
         const val TASK_TABLE = "taskTable"
 
         private var INSTANCE: DBHandler? = null
 
+        private val MIGRATION_1_2 = object : Migration(DATABASE_VERSION - 1, DATABASE_VERSION) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    """
+                    ALTER TABLE $TASK_TABLE
+                    ADD COLUMN priority TEXT NOT NULL DEFAULT 'کم'
+                    """.trimIndent()
+                )
+            }
+        }
+
         fun getDatabase(context: Context): DBHandler {
 
-            if (INSTANCE == null)
+            if (INSTANCE == null) {
                 INSTANCE = Room.databaseBuilder(
                     context,
                     DBHandler::class.java,
                     DATABASE_NAME
                 )
-                    .fallbackToDestructiveMigration()
+                    .addMigrations(MIGRATION_1_2)
                     .build()
+            }
 
             return INSTANCE!!
-
         }
 
     }
-
 }

@@ -2,71 +2,146 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/surface_variant_dark"
-    android:padding="16dp"
-    android:layoutDirection="ltr"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:padding="24dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minWidth="360dp"
+    android:minHeight="480dp">
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="16dp"
         android:text="@string/add_task"
         android:textColor="@color/text_primary_dark"
         android:textStyle="bold"
-        android:textSize="20sp"
+        android:textSize="24sp"
+        android:textAlignment="center"
+        android:padding="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtTaskLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="وظیفه"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtTask"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/back_edit_text"
         android:gravity="start|top"
         android:hint="@string/hint_task"
         android:inputType="textMultiLine"
-        android:padding="12dp"
+        android:padding="16dp"
         android:textColor="@color/text_primary_dark"
         android:textColorHint="@color/text_tertiary_dark"
-        android:textDirection="rtl"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@id/txtTaskLabel" />
 
-    <Button
-        android:id="@+id/btnSave"
+    <TextView
+        android:id="@+id/txtPriorityLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"
-        android:backgroundTint="@color/accent_blue"
-        android:text="@string/save"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/edtTask"
-        app:layout_constraintTop_toBottomOf="@+id/edtTask" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:textAllCaps="false"
-        android:textSize="16sp"
-        android:text="@string/cancel"
+        android:layout_marginTop="20dp"
+        android:text="اولویت"
         android:textColor="@color/text_secondary_dark"
-        android:backgroundTint="@color/surface_variant_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/btnSave"
-        app:layout_constraintStart_toEndOf="@+id/btnSave"
-        app:layout_constraintTop_toTopOf="@+id/btnSave" />
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtTask" />
+
+    <RadioGroup
+        android:id="@+id/radioPriority"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPriorityLabel">
+
+        <RadioButton
+            android:id="@+id/radioLow"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/accent_green"
+            android:text="کم"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <RadioButton
+            android:id="@+id/radioMedium"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/accent_blue"
+            android:text="متوسط"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="16sp"
+            android:padding="8dp" />
+
+        <RadioButton
+            android:id="@+id/radioHigh"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:buttonTint="@color/accent_red"
+            android:text="زیاد"
+            android:textColor="@color/text_primary_dark"
+            android:textSize="16sp"
+            android:padding="8dp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:id="@+id/buttonContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/radioPriority">
+
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/accent_blue"
+            android:text="@string/save"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnCancel"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="@string/cancel"
+            android:textAllCaps="false"
+            android:textColor="@color/text_secondary_dark"
+            android:textSize="18sp"
+            android:backgroundTint="@color/surface_variant_dark" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

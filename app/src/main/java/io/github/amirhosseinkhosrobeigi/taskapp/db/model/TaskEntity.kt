@@ -9,5 +9,6 @@ import io.github.amirhosseinkhosrobeigi.taskapp.db.DBHandler
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val title: String,
-    @ColumnInfo val state: Boolean
+    @ColumnInfo val state: Boolean,
+    @ColumnInfo val priority: String
 )

@@ -15,6 +15,7 @@ class PresenterMainActivity(
         setNewTask()
         setDataInitRecycler()
         dataHandler()
+        setupEditClick()
     }
 
     private fun setNewTask() {
@@ -29,7 +30,6 @@ class PresenterMainActivity(
 
     private fun setDataInitRecycler() {
         view.initRecycler(
-            arrayListOf(),
             object : OnBindData {
                 override fun editData(taskEntity: TaskEntity) {
                     model.editData(taskEntity)
@@ -58,8 +58,17 @@ class PresenterMainActivity(
         )
     }
 
+    private fun setupEditClick() {
+        view.setOnEditClickListener { task ->
+            view.showEditDialog(task, object : OnBindData {
+                override fun editData(taskEntity: TaskEntity) {
+                    model.editData(taskEntity)
+                }
+            })
+        }
+    }
+
     override fun onDestroy() {
         model.closeDatabase()
     }
-
 }

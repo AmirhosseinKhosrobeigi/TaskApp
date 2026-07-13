@@ -8,4 +8,9 @@
     <string name="hint_task">وظیفه را وارد کنید</string>
     <string name="save">ذخیره کردن</string>
     <string name="cancel">منصرف شدن</string>
+    <string-array name="priority_array">
+        <item>کم</item>
+        <item>متوسط</item>
+        <item>زیاد</item>
+    </string-array>
 </resources>
