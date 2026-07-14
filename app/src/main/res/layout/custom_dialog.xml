@@ -3,25 +3,23 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/surface_variant_dark"
-    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minWidth="360dp"
-    android:minHeight="480dp">
+    android:minHeight="560dp"
+    android:padding="24dp"
+    android:background="@color/surface_variant_dark">
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_task"
-        android:textColor="@color/text_primary_dark"
-        android:textStyle="bold"
-        android:textSize="24sp"
         android:textAlignment="center"
+        android:textColor="@color/text_primary_dark"
+        android:textSize="24sp"
+        android:textStyle="bold"
         android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -32,12 +30,12 @@
         android:text="وظیفه"
         android:textColor="@color/text_secondary_dark"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView2" />
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edtTask"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="120dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/back_edit_text"
@@ -48,9 +46,9 @@
         android:textColor="@color/text_primary_dark"
         android:textColorHint="@color/text_tertiary_dark"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtTaskLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtTaskLabel" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
         android:id="@+id/txtPriorityLabel"
@@ -60,19 +58,19 @@
         android:text="اولویت"
         android:textColor="@color/text_secondary_dark"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/edtTask" />
+        app:layout_constraintTop_toBottomOf="@id/edtTask"
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <RadioGroup
         android:id="@+id/radioPriority"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:orientation="horizontal"
         android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPriorityLabel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtPriorityLabel">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <RadioButton
             android:id="@+id/radioLow"
@@ -81,9 +79,7 @@
             android:layout_weight="1"
             android:buttonTint="@color/accent_green"
             android:text="کم"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:textColor="@color/text_primary_dark" />
 
         <RadioButton
             android:id="@+id/radioMedium"
@@ -92,9 +88,7 @@
             android:layout_weight="1"
             android:buttonTint="@color/accent_blue"
             android:text="متوسط"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:textColor="@color/text_primary_dark" />
 
         <RadioButton
             android:id="@+id/radioHigh"
@@ -103,21 +97,59 @@
             android:layout_weight="1"
             android:buttonTint="@color/accent_red"
             android:text="زیاد"
-            android:textColor="@color/text_primary_dark"
-            android:textSize="16sp"
-            android:padding="8dp" />
+            android:textColor="@color/text_primary_dark" />
+
     </RadioGroup>
+
+    <TextView
+        android:id="@+id/txtExpiryLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="تاریخ انقضا"
+        android:textColor="@color/text_secondary_dark"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/radioPriority"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/layoutExpiryDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/txtExpiryLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:boxBackgroundMode="filled"
+        app:boxBackgroundColor="@color/surface_dark"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/ic_calendar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtExpiryDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="انتخاب تاریخ"
+            android:inputType="none"
+            android:textColor="@color/text_primary_dark"
+            android:textColorHint="@color/text_tertiary_dark"
+            tools:text="۱۴۰۵/۰۴/۲۳" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
         android:id="@+id/buttonContainer"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:orientation="horizontal"
         android:padding="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layoutExpiryDate"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/radioPriority">
+        app:layout_constraintEnd_toEndOf="parent">
 
         <Button
             android:id="@+id/btnSave"
@@ -129,7 +161,7 @@
             android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnCancel"
@@ -137,11 +169,12 @@
             android:layout_height="56dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
+            android:backgroundTint="@color/surface_variant_dark"
             android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/text_secondary_dark"
-            android:textSize="18sp"
-            android:backgroundTint="@color/surface_variant_dark" />
+            android:textSize="18sp"/>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

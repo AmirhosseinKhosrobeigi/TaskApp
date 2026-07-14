@@ -10,5 +10,6 @@ data class TaskEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     @ColumnInfo val title: String,
     @ColumnInfo val state: Boolean,
-    @ColumnInfo val priority: String
+    @ColumnInfo val priority: String,
+    @ColumnInfo val expiryDate: String? = null
 )
