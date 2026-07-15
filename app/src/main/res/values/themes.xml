@@ -1,15 +1,15 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme - Premium Dark Theme -->
-    <style name="Theme.TaskApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color - Deep Purple -->
+    <!-- Base application theme. -->
+    <style name="Theme.TaskApp" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         
-        <!-- Secondary brand color - Electric Blue -->
+        <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/background_dark</item>
+        <item name="colorOnSecondary">@color/black</item>
         
         <!-- Background colors -->
         <item name="android:colorBackground">@color/background_dark</item>
@@ -31,7 +31,5 @@
         
         <!-- Switch and radio button -->
         <item name="colorSwitchThumbNormal">@color/surface_variant_dark</item>
-        
-        <!-- Customize your theme here. -->
     </style>
 </resources>

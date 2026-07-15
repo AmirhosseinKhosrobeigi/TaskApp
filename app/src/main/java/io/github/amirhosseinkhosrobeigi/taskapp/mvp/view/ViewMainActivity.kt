@@ -7,17 +7,19 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
+import android.view.WindowManager
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import io.github.amirhosseinkhosrobeigi.taskapp.R
+import io.github.amirhosseinkhosrobeigi.taskapp.adapter.CalendarAdapter
 import io.github.amirhosseinkhosrobeigi.taskapp.adapter.RecyclerTaskAdapter
 import io.github.amirhosseinkhosrobeigi.taskapp.databinding.ActivityMainBinding
 import io.github.amirhosseinkhosrobeigi.taskapp.databinding.CustomDialogBinding
 import io.github.amirhosseinkhosrobeigi.taskapp.db.model.TaskEntity
 import io.github.amirhosseinkhosrobeigi.taskapp.mvp.ext.OnBindData
+import io.github.amirhosseinkhosrobeigi.taskapp.utils.ShamsiCalendarUtils
 
 class ViewMainActivity(
     private val context: Context
@@ -150,73 +152,67 @@ class ViewMainActivity(
     }
 
     private fun showShamsiDatePicker(onDateSelected: (String) -> Unit) {
-        // Persian months
-        val persianMonths = listOf(
-            "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
-            "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
-        )
-
-        // Current Shamsi date (approximate - you may want to calculate this properly)
-        val currentYear = 1403
-        val currentMonth = 5  // Ordibehesht
-        val currentDay = 15
-
-        // Create year selection dialog
-        val years = (1390..1420).toList().map { it.toString() }
-        val yearAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, years)
-
-        val monthAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, persianMonths)
-
-        // Create a custom view for date selection
-        val datePickerView = LayoutInflater.from(context).inflate(R.layout.dialog_shamsi_date_picker, null)
-
-        val yearSpinner = datePickerView.findViewById<android.widget.Spinner>(R.id.spinnerYear)
-        val monthSpinner = datePickerView.findViewById<android.widget.Spinner>(R.id.spinnerMonth)
-        val daySpinner = datePickerView.findViewById<android.widget.Spinner>(R.id.spinnerDay)
-
-        yearSpinner.adapter = yearAdapter
-        monthSpinner.adapter = monthAdapter
-
-        yearSpinner.setSelection(years.indexOf(currentYear.toString()))
-        monthSpinner.setSelection(currentMonth - 1)
-
-        monthSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updateDaySpinner(daySpinner, yearSpinner.selectedItem.toString().toInt(), position + 1)
-            }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
-
-        updateDaySpinner(daySpinner, currentYear, currentMonth)
-        daySpinner.setSelection(currentDay - 1)
-
-        AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(context)
             .setTitle("انتخاب تاریخ شمسی")
-            .setView(datePickerView)
-            .setPositiveButton("تایید") { _, _ ->
-                val year = yearSpinner.selectedItem.toString()
-                val month = monthSpinner.selectedItemPosition + 1
-                val day = daySpinner.selectedItemPosition + 1
-                val dateString = "$year/$month/$day"
-                onDateSelected(dateString)
-            }
+            .setPositiveButton("تایید") { _, _ -> }
             .setNegativeButton("انصراف", null)
-            .show()
-    }
+            .create()
 
-    private fun updateDaySpinner(daySpinner: android.widget.Spinner, year: Int, month: Int) {
-        val daysInMonth = when (month) {
-            12 -> if (isPersianLeapYear(year)) 30 else 29
-            in 1..6 -> 31
-            else -> 30
+        val view = LayoutInflater.from(context).inflate(R.layout.dialog_shamsi_material_calendar, null)
+        dialog.setView(view)
+
+        val calendarGrid = view.findViewById<RecyclerView>(R.id.calendarGrid)
+        val txtMonthYear = view.findViewById<TextView>(R.id.txtMonthYear)
+        val btnPrevMonth = view.findViewById<View>(R.id.btnPrevMonth)
+        val btnNextMonth = view.findViewById<View>(R.id.btnNextMonth)
+
+        // Get current Shamsi date
+        val (currentYear, currentMonth) = ShamsiCalendarUtils.getCurrentShamsiYearMonth()
+        var selectedYear = currentYear
+        var selectedMonth = currentMonth
+
+        // Update month/year display
+        fun updateMonthDisplay() {
+            val monthName = ShamsiCalendarUtils.getPersianMonthName(selectedMonth)
+            txtMonthYear.text = "$monthName ${ShamsiCalendarUtils.toPersianNumbers(selectedYear.toString())}"
         }
-        val days = (1..daysInMonth).map { it.toString() }
-        val dayAdapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, days)
-        daySpinner.adapter = dayAdapter
-    }
 
-    private fun isPersianLeapYear(year: Int): Boolean {
-        return ((year % 33) % 4) == 1
+        // Setup calendar grid
+        fun setupCalendar() {
+            val adapter = CalendarAdapter(selectedYear, selectedMonth) { shamsiDate ->
+                onDateSelected(shamsiDate)
+                dialog.dismiss()
+            }
+            calendarGrid.adapter = adapter
+            calendarGrid.layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 7)
+        }
+
+        // Navigation buttons
+        btnPrevMonth.setOnClickListener {
+            selectedMonth--
+            if (selectedMonth < 1) {
+                selectedMonth = 12
+                selectedYear--
+            }
+            updateMonthDisplay()
+            setupCalendar()
+        }
+
+        btnNextMonth.setOnClickListener {
+            selectedMonth++
+            if (selectedMonth > 12) {
+                selectedMonth = 1
+                selectedYear++
+            }
+            updateMonthDisplay()
+            setupCalendar()
+        }
+
+        // Initial setup
+        updateMonthDisplay()
+        setupCalendar()
+
+        dialog.show()
     }
 
     fun initRecycler(onBindData: OnBindData) {
