@@ -1,218 +1,369 @@
 package io.github.amirhosseinkhosrobeigi.taskapp.utils
 
+import io.github.amirhosseinkhosrobeigi.taskapp.db.model.CalendarDay
 import java.util.*
+import java.util.Calendar
 
 object ShamsiCalendarUtils {
 
-    // Persian month names
-    private val persianMonths = arrayOf(
-        "فروردین", "اردیبهشت", "خرداد", "تیر", "مرداد", "شهریور",
-        "مهر", "آبان", "آذر", "دی", "بهمن", "اسفند"
+    val monthNames = listOf(
+        "فروردین",
+        "اردیبهشت",
+        "خرداد",
+        "تیر",
+        "مرداد",
+        "شهریور",
+        "مهر",
+        "آبان",
+        "آذر",
+        "دی",
+        "بهمن",
+        "اسفند"
     )
 
-    // Persian week day names
-    private val persianWeekDays = arrayOf(
-        "شنبه", "یکشنبه", "دوشنبه", "سه شنبه", "چهارشنبه", "پنجشنبه", "جمعه"
+    data class ShamsiDate(
+        val year: Int,
+        val month: Int,
+        val day: Int
     )
 
-    /**
-     * Convert Gregorian date to Shamsi date string
-     */
-    fun gregorianToShamsi(year: Int, month: Int, day: Int): String {
-        val gregorianCalendar = GregorianCalendar(year, month - 1, day)
-        val shamsiDate = gregorianToJalali(gregorianCalendar)
-        return String.format("%04d/%02d/%02d", shamsiDate[0], shamsiDate[1], shamsiDate[2])
-    }
-
-    /**
-     * Get current Shamsi date as string
-     */
-    fun getCurrentShamsiDate(): String {
-        val calendar = Calendar.getInstance()
-        val shamsi = gregorianToJalali(calendar)
-        return String.format("%04d/%02d/%02d", shamsi[0], shamsi[1], shamsi[2])
-    }
-
-    /**
-     * Convert Gregorian calendar to Jalali (Shamsi) date
-     */
-    private fun gregorianToJalali(gregorian: Calendar): IntArray {
-        val gy = gregorian.get(Calendar.YEAR)
-        val gm = gregorian.get(Calendar.MONTH) + 1
-        val gd = gregorian.get(Calendar.DAY_OF_MONTH)
-
-        return gregorianToJalali(gy, gm, gd)
-    }
-
-    /**
-     * Convert Gregorian date to Jalali (Shamsi) date
-     */
-    private fun gregorianToJalali(gy: Int, gm: Int, gd: Int): IntArray {
-        val gDayNo = gregorianDateToJd(gy, gm, gd)
-        val jDayNo = gDayNo - 79
-
-        val jNp = jDayNo + 282000
-        val i = 4 * (jNp / 146097)
-        var jNpVar = jNp % 146097
-
-        if (jNpVar >= 36525) {
-            jNpVar -= 36525
-        }
-
-        val jy = (1461 * jNpVar) / 4 + i
-        jNpVar = (1461 * jNpVar) % 4
-
-        if (jNpVar >= 366) {
-            jNpVar -= 365
-        }
-
-        val jm = if (jNpVar < 186) jNpVar / 31 else (jNpVar - 186) / 30
-        val jd = if (jNpVar < 186) jNpVar % 31 + 1 else (jNpVar - 186) % 30 + 1
-
-        return intArrayOf(jy, jm + 1, jd)
-    }
-
-    /**
-     * Convert Jalali (Shamsi) date to Gregorian date
-     */
-    private fun jalaliToGregorian(jy: Int, jm: Int, jd: Int): IntArray {
-        val jDayNo = jalaliDateToJd(jy, jm, jd)
-        val gDayNo = jDayNo + 79
-
-        val gy = 1600 + (400 * (gDayNo / 146097))
-        var gDayNoVar = gDayNo % 146097
-
-        val leap = if (gDayNoVar >= 36525) 1 else 0
-        gDayNoVar = if (leap == 1) gDayNoVar - 36525 else gDayNoVar - 36524
-
-        val gm = if (gDayNoVar < 30664) gDayNoVar / 1532 + 2 else gDayNoVar / 1532 + 3
-        val gd = if (gm < 11) gDayNoVar % 1532 + 28 else gDayNoVar % 1532 + 29
-
-        return intArrayOf(gy, gm, gd)
-    }
-
-    /**
-     * Convert Gregorian date to Julian Day number
-     */
-    private fun gregorianDateToJd(gy: Int, gm: Int, gd: Int): Int {
-        return (1461 * (gy + 4800 + (gm - 14) / 12)) / 4 +
-                (367 * (gm - 2 - 12 * ((gm - 14) / 12))) / 12 -
-                (3 * ((gy + 4900 + (gm - 14) / 12) / 100)) / 4 + gd - 32075
-    }
-
-    /**
-     * Convert Jalali date to Julian Day number
-     */
-    private fun jalaliDateToJd(jy: Int, jm: Int, jd: Int): Int {
-        var jDayNo = 365 * (jy - 1) + (jy - 1) / 33 * 8 + (jy - 1) % 33 / 4
-
-        if (jm < 7)
-            jDayNo += (jm - 1) * 31
-        else
-            jDayNo += (jm - 7) * 30 + 186
-
-        jDayNo += jd - 1
-        return jDayNo
-    }
-
-    /**
-     * Get Persian month name
-     */
     fun getPersianMonthName(month: Int): String {
-        return if (month >= 1 && month <= 12) persianMonths[month - 1] else ""
+        return monthNames[month - 1]
     }
 
-    /**
-     * Get Persian week day name
-     */
-    fun getPersianWeekDayName(dayOfWeek: Int): String {
-        // dayOfWeek: 1=Sunday, 2=Monday, ..., 7=Saturday
-        // Persian week starts with Saturday (0)
-        val persianDayIndex = (dayOfWeek + 5) % 7
-        return persianWeekDays[persianDayIndex]
-    }
+    fun getDaysInMonth(
+        month: Int,
+        year: Int
+    ): Int {
 
-    /**
-     * Convert Arabic numerals to Persian numerals
-     */
-    fun toPersianNumbers(input: String): String {
-        val persianDigits = arrayOf("۰", "۱", "۲", "۳", "۴", "۵", "۶", "۷", "۸", "۹")
-        val arabicDigits = arrayOf("0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
+        return when {
+            month in 1..6 -> 31
+            month in 7..11 -> 30
+            month == 12 -> {
+                if (isLeapYear(year)) 30 else 29
+            }
 
-        var result = input
-        for (i in arabicDigits.indices) {
-            result = result.replace(arabicDigits[i], persianDigits[i])
+            else -> 0
         }
-        return result
     }
 
-    /**
-     * Get current Shamsi year and month
-     */
-    fun getCurrentShamsiYearMonth(): Pair<Int, Int> {
+    private fun isLeapYear(year: Int): Boolean {
+        return ((year + 38) * 31) % 128 < 30
+    }
+
+    fun toPersianNumbers(number: String): String {
+
+        val english = "0123456789"
+        val persian = "۰۱۲۳۴۵۶۷۸۹"
+
+        return number.map { char ->
+
+            val index = english.indexOf(char)
+
+            if (index != -1) {
+                persian[index]
+            } else {
+                char
+            }
+
+        }.joinToString("")
+    }
+
+    fun getCurrentShamsiDate(): ShamsiDate {
+
         val calendar = Calendar.getInstance()
-        val shamsi = gregorianToJalali(calendar)
-        return Pair(shamsi[0], shamsi[1])
+
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH) + 1
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        return gregorianToShamsi(
+            year,
+            month,
+            day
+        )
     }
 
-    /**
-     * Convert Shamsi date string to Gregorian date array [year, month, day]
-     */
-    fun shamsiToGregorian(shamsiDate: String): IntArray? {
-        val parts = shamsiDate.split("/")
-        if (parts.size != 3) return null
+    fun generateCalendarDays(
+        year: Int,
+        month: Int
+    ): List<CalendarDay> {
 
-        try {
-            val shamsiYear = parts[0].toInt()
-            val shamsiMonth = parts[1].toInt()
-            val shamsiDay = parts[2].toInt()
+        val days = mutableListOf<CalendarDay>()
 
-            return jalaliToGregorian(shamsiYear, shamsiMonth, shamsiDay)
-        } catch (e: Exception) {
-            return null
+        val firstDayOfMonth =
+            getFirstDayOfShamsiMonth(
+                year,
+                month
+            )
+
+        repeat(firstDayOfMonth) {
+            days.add(
+                CalendarDay()
+            )
         }
-    }
 
-    /**
-     * Returns number of days in a Shamsi month
-     */
-    fun getDaysInShamsiMonth(year: Int, month: Int): Int {
-        return when (month) {
-            in 1..6 -> 31
-            in 7..11 -> 30
-            12 -> if (isLeapShamsiYear(year)) 30 else 29
-            else -> throw IllegalArgumentException("Invalid month: $month")
+        val daysInMonth =
+            getDaysInMonth(
+                month,
+                year
+            )
+
+        val today =
+            getCurrentShamsiDate()
+
+        for (day in 1..daysInMonth) {
+
+            days.add(
+                CalendarDay(
+                    day = day,
+                    isToday =
+                    year == today.year &&
+                            month == today.month &&
+                            day == today.day
+                )
+            )
         }
+
+        return days
     }
 
-    /**
-     * Check if a Shamsi year is leap
-     */
-    fun isLeapShamsiYear(year: Int): Boolean {
-        val breaks = intArrayOf(
-            -61, 9, 38, 199, 426, 686, 756, 818, 1111,
-            1181, 1210, 1635, 2060, 2097, 2192, 2262,
-            2324, 2394, 2456, 3178
+    private fun getFirstDayOfShamsiMonth(
+        year: Int,
+        month: Int
+    ): Int {
+
+        val gregorianDate =
+            shamsiToGregorian(
+                year,
+                month,
+                1
+            )
+
+        val calendar =
+            Calendar.getInstance()
+
+        calendar.set(
+            gregorianDate.year,
+            gregorianDate.month - 1,
+            gregorianDate.day
         )
 
-        var jp = breaks[0]
-        var jump = 0
+        /*
+         * Calendar:
+         *
+         * Sunday = 1
+         * Monday = 2
+         * Tuesday = 3
+         * Wednesday = 4
+         * Thursday = 5
+         * Friday = 6
+         * Saturday = 7
+         */
 
-        for (i in 1 until breaks.size) {
-            val jm = breaks[i]
-            jump = jm - jp
-            if (year < jm) break
-            jp = jm
+        val dayOfWeek =
+            calendar.get(Calendar.DAY_OF_WEEK)
+
+        return when (dayOfWeek) {
+
+            Calendar.SATURDAY -> 0
+            Calendar.SUNDAY -> 1
+            Calendar.MONDAY -> 2
+            Calendar.TUESDAY -> 3
+            Calendar.WEDNESDAY -> 4
+            Calendar.THURSDAY -> 5
+            Calendar.FRIDAY -> 6
+
+            else -> 0
+        }
+    }
+
+    data class GregorianDate(
+        val year: Int,
+        val month: Int,
+        val day: Int
+    )
+
+    private fun shamsiToGregorian(
+        jy: Int,
+        jm: Int,
+        jd: Int
+    ): GregorianDate {
+
+        var gy: Int
+        var gm: Int
+        var gd: Int
+
+        val jy2 = jy - 979
+
+        var days =
+            365 * jy2 +
+                    (jy2 / 33) * 8 +
+                    ((jy2 % 33) + 3) / 4
+
+        days += if (jm < 7) {
+            (jm - 1) * 31
+        } else {
+            (jm - 7) * 30 + 186
         }
 
-        var n = year - jp
+        days += jd - 1
 
-        if (jump - n < 6)
-            n = n - jump + ((jump + 4) / 33) * 33
+        gy = 1600 + 400 * (days / 146097)
 
-        val leap = ((n + 1) % 33 - 1) % 4
+        days %= 146097
 
-        return leap == 0
+        if (days >= 36525) {
+
+            days--
+
+            gy += 100 * (days / 36524)
+
+            days %= 36524
+
+            if (days >= 365) {
+                days++
+            }
+        }
+
+        gy += 4 * (days / 1461)
+
+        days %= 1461
+
+        if (days >= 366) {
+
+            gy += (days - 1) / 365
+
+            days = (days - 1) % 365
+        }
+
+        gd = days + 1
+
+        val gregorianMonthDays =
+            intArrayOf(
+                31,
+                28,
+                31,
+                30,
+                31,
+                30,
+                31,
+                31,
+                30,
+                31,
+                30,
+                31
+            )
+
+        if (
+            (gy % 4 == 0 && gy % 100 != 0) ||
+            gy % 400 == 0
+        ) {
+            gregorianMonthDays[1] = 29
+        }
+
+        gm = 0
+
+        while (
+            gd > gregorianMonthDays[gm]
+        ) {
+            gd -= gregorianMonthDays[gm]
+            gm++
+        }
+
+        return GregorianDate(
+            year = gy,
+            month = gm + 1,
+            day = gd
+        )
+    }
+
+    private fun gregorianToShamsi(
+        gy: Int,
+        gm: Int,
+        gd: Int
+    ): ShamsiDate {
+
+        val gDaysInMonth =
+            intArrayOf(
+                31,
+                28,
+                31,
+                30,
+                31,
+                30,
+                31,
+                31,
+                30,
+                31,
+                30,
+                31
+            )
+
+        var gyTemp = gy - 1600
+        var gmTemp = gm - 1
+        val gdTemp = gd - 1
+
+        var days =
+            365 * gyTemp +
+                    (gyTemp + 3) / 4 -
+                    (gyTemp + 99) / 100 +
+                    (gyTemp + 399) / 400
+
+        for (i in 0 until gmTemp) {
+            days += gDaysInMonth[i]
+        }
+
+        if (
+            gmTemp > 1 &&
+            (
+                    gy % 4 == 0 &&
+                            (
+                                    gy % 100 != 0 ||
+                                            gy % 400 == 0
+                                    )
+                    )
+        ) {
+            days++
+        }
+
+        days += gdTemp
+
+        var jDays = days - 79
+
+        val jNp = jDays / 12053
+
+        jDays %= 12053
+
+        var jy = 979 + 33 * jNp + 4 * (jDays / 1461)
+
+        jDays %= 1461
+
+        if (jDays >= 366) {
+
+            jy += (jDays - 1) / 365
+
+            jDays = (jDays - 1) % 365
+        }
+
+        val jm: Int
+        val jd: Int
+
+        if (jDays < 186) {
+
+            jm = 1 + jDays / 31
+            jd = 1 + jDays % 31
+
+        } else {
+
+            jm = 7 + (jDays - 186) / 30
+            jd = 1 + (jDays - 186) % 30
+        }
+
+        return ShamsiDate(
+            year = jy,
+            month = jm,
+            day = jd
+        )
     }
 }
-
