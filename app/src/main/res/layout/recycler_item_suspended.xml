@@ -25,7 +25,7 @@
                 android:id="@+id/chkTaskSuspended"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:buttonTint="@color/accent_purple"
+                android:buttonTint="@color/priority_medium"
                 android:checked="false"
                 android:enabled="false" />
 
@@ -44,7 +44,7 @@
                 android:id="@+id/txtPrioritySuspended"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/accent_red"
+                android:textColor="@color/priority_high"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 tools:text="زیاد" />
@@ -71,7 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:background="@color/accent_red"
+                android:background="@color/status_error"
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:text="معلق"

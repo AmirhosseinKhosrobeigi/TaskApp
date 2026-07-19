@@ -35,9 +35,9 @@ class RecyclerTaskAdapter(
             binding.checkBox.isChecked = data.state
 
             val priorityColor = when (data.priority) {
-                "زیاد" -> R.color.accent_red
-                "متوسط" -> R.color.accent_blue
-                "کم" -> R.color.accent_green
+                "زیاد" -> R.color.priority_high
+                "متوسط" -> R.color.priority_medium
+                "کم" -> R.color.priority_low
                 else -> R.color.accent_purple
             }
             binding.priorityIndicator.setBackgroundColor(
@@ -87,9 +87,9 @@ class RecyclerTaskAdapter(
             binding.txtPrioritySuspended.text = data.priority
 
             val priorityColor = when (data.priority) {
-                "زیاد" -> R.color.accent_red
-                "متوسط" -> R.color.accent_blue
-                "کم" -> R.color.accent_green
+                "زیاد" -> R.color.priority_high
+                "متوسط" -> R.color.priority_medium
+                "کم" -> R.color.priority_low
                 else -> R.color.text_primary_dark
             }
             binding.txtPrioritySuspended.setTextColor(

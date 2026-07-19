@@ -21,7 +21,7 @@
             android:id="@+id/checkBox"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:buttonTint="@color/accent_blue"
+            android:buttonTint="@color/priority_medium"
             android:padding="4dp"
             app:layout_constraintBottom_toBottomOf="@id/txtTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -32,7 +32,7 @@
             android:layout_width="4dp"
             android:layout_height="0dp"
             android:layout_marginEnd="16dp"
-            android:background="@color/accent_purple"
+            android:background="@color/priority_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/checkBox"
             app:layout_constraintTop_toTopOf="parent" />
@@ -75,7 +75,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_delete"
-            app:tint="@color/accent_red" />
+            app:tint="@color/priority_high" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

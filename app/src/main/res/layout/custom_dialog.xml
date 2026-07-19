@@ -77,7 +77,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="@color/accent_green"
+            android:buttonTint="@color/priority_low"
             android:text="کم"
             android:textColor="@color/text_primary_dark" />
 
@@ -86,7 +86,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="@color/accent_blue"
+            android:buttonTint="@color/priority_medium"
             android:text="متوسط"
             android:textColor="@color/text_primary_dark" />
 
@@ -95,7 +95,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:buttonTint="@color/accent_red"
+            android:buttonTint="@color/priority_high"
             android:text="زیاد"
             android:textColor="@color/text_primary_dark" />
 
@@ -157,7 +157,7 @@
             android:layout_height="56dp"
             android:layout_weight="1"
             android:layout_marginEnd="8dp"
-            android:backgroundTint="@color/accent_blue"
+            android:backgroundTint="@color/button_success"
             android:text="@string/save"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -169,7 +169,7 @@
             android:layout_height="56dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:backgroundTint="@color/surface_variant_dark"
+            android:backgroundTint="@color/surface_bright"
             android:text="@string/cancel"
             android:textAllCaps="false"
             android:textColor="@color/text_secondary_dark"
