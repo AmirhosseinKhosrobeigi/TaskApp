@@ -47,8 +47,7 @@ class CalendarAdapter(
                 )
 
             when {
-
-                // امروز + انتخاب‌شده
+                // امروز + انتخابشده
                 calendarDay.isToday &&
                         calendarDay.isSelected -> {
 
@@ -65,9 +64,15 @@ class CalendarAdapter(
                     )
                 }
 
-                // روز انتخاب‌شده
+                // روز انتخابشده (by user click)
                 calendarDay.isSelected -> {
 
+                    cardDay.setBackgroundResource(
+                        R.drawable.bg_calendar_day_selected
+                    )
+                }
+                // روز اولیه انتخاب شده (from expiryDate)
+                calendarDay.isInitialSelected -> {
                     cardDay.setBackgroundResource(
                         R.drawable.bg_calendar_day_selected
                     )
@@ -90,7 +95,8 @@ class CalendarAdapter(
 
                         days[index] = day.copy(
                             isSelected =
-                            day.day == clickedDay
+                            day.day == clickedDay,
+                            isInitialSelected = false
                         )
                     }
                 }

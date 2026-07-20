@@ -69,6 +69,20 @@ object ShamsiCalendarUtils {
         }.joinToString("")
     }
 
+    fun toEnglishNumbers(number: String): String {
+        val persian = "۰۱۲۳۴۵۶۷۸۹"
+        val english = "0123456789"
+
+        return number.map { char ->
+            val index = persian.indexOf(char)
+            if (index != -1) {
+                english[index]
+            } else {
+                char
+            }
+        }.joinToString("")
+    }
+
     fun getCurrentShamsiDate(): ShamsiDate {
 
         val calendar = Calendar.getInstance()
@@ -86,7 +100,8 @@ object ShamsiCalendarUtils {
 
     fun generateCalendarDays(
         year: Int,
-        month: Int
+        month: Int,
+        initialSelectedDay: Int? = null
     ): List<CalendarDay> {
 
         val days = mutableListOf<CalendarDay>()
@@ -120,7 +135,8 @@ object ShamsiCalendarUtils {
                     isToday =
                     year == today.year &&
                             month == today.month &&
-                            day == today.day
+                            day == today.day,
+                    isInitialSelected = initialSelectedDay == day
                 )
             )
         }

@@ -102,9 +102,12 @@ class ViewMainActivity(
         dialog.show()
 
         view.edtExpiryDate.setOnClickListener {
-            showShamsiDatePicker { selectedDate ->
-                view.edtExpiryDate.setText(selectedDate)
-            }
+            showShamsiDatePicker(
+                currentDate = view.edtExpiryDate.text.toString(),
+                onDateSelected = { selectedDate ->
+                    view.edtExpiryDate.setText(selectedDate)
+                }
+            )
         }
 
         task?.let {
@@ -190,7 +193,10 @@ class ViewMainActivity(
         }
     }
 
-    private fun showShamsiDatePicker(onDateSelected: (String) -> Unit) {
+    private fun showShamsiDatePicker(
+        currentDate: String,
+        onDateSelected: (String) -> Unit
+    ) {
         val dialog = AlertDialog.Builder(context)
             .setTitle("انتخاب تاریخ شمسی")
             .setPositiveButton("تایید", null)
@@ -208,9 +214,27 @@ class ViewMainActivity(
         val btnNextMonth = view.findViewById<View>(R.id.btnNextMonth)
 
         val today = ShamsiCalendarUtils.getCurrentShamsiDate()
+
         var selectedYear = today.year
         var selectedMonth = today.month
         var selectedDay: Int? = null
+        var initialSelectedDay: Int? = null
+
+        if (currentDate.isNotEmpty()) {
+            try {
+                val parsedDate = ShamsiCalendarUtils.toEnglishNumbers(currentDate)
+                val dateParts = parsedDate.split("/")
+                if (dateParts.size == 3) {
+                    selectedYear = dateParts[0].toInt()
+                    selectedMonth = dateParts[1].toInt()
+                    selectedDay = dateParts[2].toInt()
+                    initialSelectedDay = selectedDay
+                }
+            } catch (e: Exception) {
+                selectedDay = null
+                initialSelectedDay = null
+            }
+        }
 
         val calendarAdapter = CalendarAdapter { day ->
             selectedDay = day
@@ -234,7 +258,8 @@ class ViewMainActivity(
         fun updateCalendar() {
             val days = ShamsiCalendarUtils.generateCalendarDays(
                 selectedYear,
-                selectedMonth
+                selectedMonth,
+                initialSelectedDay
             )
 
             calendarAdapter.setData(days)
@@ -249,6 +274,7 @@ class ViewMainActivity(
             }
 
             selectedDay = null
+            initialSelectedDay = null
             updateMonthTitle()
             updateCalendar()
         }
@@ -262,6 +288,7 @@ class ViewMainActivity(
             }
 
             selectedDay = null
+            initialSelectedDay = null
             updateMonthTitle()
             updateCalendar()
         }
@@ -279,6 +306,12 @@ class ViewMainActivity(
                     ShamsiCalendarUtils.toPersianNumbers(selectedDate)
                 )
 
+                dialog.dismiss()
+            } else if (initialSelectedDay != null) {
+                val selectedDate = "$selectedYear/$selectedMonth/$initialSelectedDay"
+                onDateSelected(
+                    ShamsiCalendarUtils.toPersianNumbers(selectedDate)
+                )
                 dialog.dismiss()
             } else {
                 Toast.makeText(
