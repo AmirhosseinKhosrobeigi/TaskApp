@@ -38,6 +38,14 @@ class PresenterMainActivity(
                 override fun deleteData(taskEntity: TaskEntity) {
                     model.deletetData(taskEntity)
                 }
+
+                override fun restoreData(taskEntity: TaskEntity) {
+                    model.restoreTask(taskEntity)
+                }
+
+                override fun suspendData(taskEntity: TaskEntity) {
+                    model.suspendTask(taskEntity)
+                }
             }
         )
     }
@@ -51,6 +59,15 @@ class PresenterMainActivity(
                         object : OnBindData {
                             override fun getData(taskEntity: List<TaskEntity>) {
                                 view.showTask(taskEntity)
+                            }
+                        })
+                }
+
+                override fun requestSuspendedData() {
+                    model.getSuspendedTasks(
+                        object : OnBindData {
+                            override fun getSuspendedData(taskEntity: List<TaskEntity>) {
+                                view.showSuspendedTasks(taskEntity)
                             }
                         })
                 }

@@ -11,5 +11,6 @@ data class TaskEntity(
     @ColumnInfo val title: String,
     @ColumnInfo val state: Boolean,
     @ColumnInfo val priority: String,
-    @ColumnInfo val expiryDate: String? = null
+    @ColumnInfo val expiryDate: String? = null,
+    @ColumnInfo val suspended: Boolean = false
 )

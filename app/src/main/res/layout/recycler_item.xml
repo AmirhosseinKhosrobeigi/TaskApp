@@ -77,6 +77,16 @@
             app:srcCompat="@drawable/ic_delete"
             app:tint="@color/priority_high" />
 
+        <ImageView
+            android:id="@+id/imgSuspend"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:contentDescription="معلق کردن"
+            android:padding="4dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/imgDelete"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_calendar"
+            app:tint="@color/accent_blue" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </androidx.cardview.widget.CardView>

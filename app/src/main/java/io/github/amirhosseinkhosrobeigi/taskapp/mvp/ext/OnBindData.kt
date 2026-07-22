@@ -12,6 +12,14 @@ interface OnBindData {
 
     fun getData(taskEntity: List<TaskEntity>) {}
 
+    fun getSuspendedData(taskEntity: List<TaskEntity>) {}
+
     fun requestData(state: Boolean) {}
+
+    fun requestSuspendedData() {}
+
+    fun restoreData(taskEntity: TaskEntity) {}
+
+    fun suspendData(taskEntity: TaskEntity) {}
 
 }

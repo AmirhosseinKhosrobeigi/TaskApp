@@ -20,7 +20,7 @@ abstract class DBHandler : RoomDatabase() {
     companion object {
 
         private const val DATABASE_NAME = "task_database"
-        const val DATABASE_VERSION = 4
+        const val DATABASE_VERSION = 5
 
         const val TASK_TABLE = "taskTable"
 
@@ -36,7 +36,7 @@ abstract class DBHandler : RoomDatabase() {
                     DATABASE_NAME
                 )
                     .fallbackToDestructiveMigration()
-                    .addMigrations(MIGRATION_3_4)
+                    .addMigrations(MIGRATION_3_4, MIGRATION_4_5)
                     .build()
             }
 
@@ -46,6 +46,12 @@ abstract class DBHandler : RoomDatabase() {
         private val MIGRATION_3_4 = object : Migration(3, 4) {
             override fun migrate(database: SupportSQLiteDatabase) {
                 database.execSQL("ALTER TABLE taskTable ADD COLUMN expiryDate TEXT")
+            }
+        }
+
+        private val MIGRATION_4_5 = object : Migration(4, 5) {
+            override fun migrate(database: SupportSQLiteDatabase) {
+                database.execSQL("ALTER TABLE taskTable ADD COLUMN suspended INTEGER NOT NULL DEFAULT 0")
             }
         }
 

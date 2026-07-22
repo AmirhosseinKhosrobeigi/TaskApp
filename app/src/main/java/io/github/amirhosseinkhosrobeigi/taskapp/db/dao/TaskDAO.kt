@@ -17,6 +17,12 @@ interface TaskDAO {
     @Query("SELECT * FROM ${DBHandler.TASK_TABLE} WHERE state = :type")
     fun getTasksByColumn(type: Boolean): Flow<List<TaskEntity>>
 
+    @Query("SELECT * FROM ${DBHandler.TASK_TABLE} WHERE suspended = 1")
+    fun getSuspendedTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM ${DBHandler.TASK_TABLE}")
+    fun getAllTasks(): Flow<List<TaskEntity>>
+
     @Update
     fun updateTasks(vararg tasks: TaskEntity): Int
 
@@ -26,4 +32,6 @@ interface TaskDAO {
     @Query("DELETE FROM ${DBHandler.TASK_TABLE}")
     fun deleteAllTasks()
 
+    @Query("UPDATE ${DBHandler.TASK_TABLE} SET suspended = :suspended WHERE id = :taskId")
+    fun setTaskSuspended(taskId: Int, suspended: Boolean)
 }

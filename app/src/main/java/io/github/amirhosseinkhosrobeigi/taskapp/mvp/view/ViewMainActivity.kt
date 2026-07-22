@@ -57,7 +57,7 @@ class ViewMainActivity(
         }
 
         binding.rdbSuspended.setOnClickListener {
-            // onBindData.requestSuspendedData()
+            onBindData.requestSuspendedData()
         }
     }
 
@@ -122,6 +122,8 @@ class ViewMainActivity(
             if (!it.expiryDate.isNullOrEmpty()) {
                 view.edtExpiryDate.setText(it.expiryDate)
             }
+
+            view.chkSuspended.isChecked = it.suspended
         }
 
         view.btnCancel.setOnClickListener {
@@ -139,6 +141,7 @@ class ViewMainActivity(
             }
 
             val expiryDate = view.edtExpiryDate.text.toString()
+            val isSuspended = view.chkSuspended.isChecked
 
             if (text.isNotEmpty()) {
                 if (task == null) {
@@ -151,7 +154,8 @@ class ViewMainActivity(
                                 expiryDate
                             } else {
                                 null
-                            }
+                            },
+                            suspended = isSuspended
                         )
                     )
 
@@ -171,7 +175,8 @@ class ViewMainActivity(
                                 expiryDate
                             } else {
                                 null
-                            }
+                            },
+                            suspended = isSuspended
                         )
                     )
 

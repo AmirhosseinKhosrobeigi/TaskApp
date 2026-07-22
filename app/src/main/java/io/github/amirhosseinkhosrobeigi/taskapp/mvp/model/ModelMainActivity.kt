@@ -5,6 +5,7 @@ import androidx.lifecycle.lifecycleScope
 import io.github.amirhosseinkhosrobeigi.taskapp.db.DBHandler
 import io.github.amirhosseinkhosrobeigi.taskapp.db.model.TaskEntity
 import io.github.amirhosseinkhosrobeigi.taskapp.mvp.ext.OnBindData
+import io.github.amirhosseinkhosrobeigi.taskapp.utils.ShamsiCalendarUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
@@ -47,6 +48,46 @@ class ModelMainActivity(private val activity: AppCompatActivity) {
                         onBindData.getData(it)
                     }
                 }
+            }
+        }
+    }
+
+    fun getSuspendedTasks(onBindData: OnBindData) {
+        activity.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                val tasks = db.taskDao().getAllTasks()
+                withContext(Dispatchers.Main) {
+                    tasks.collect { allTasks ->
+                        val suspendedTasks = allTasks.filter { task ->
+                            task.suspended || (task.expiryDate?.let { ShamsiCalendarUtils.isDateExpired(it) } ?: false)
+                        }
+                        onBindData.getSuspendedData(suspendedTasks)
+                    }
+                }
+            }
+        }
+    }
+
+    fun setTaskSuspended(taskId: Int, suspended: Boolean) {
+        activity.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                db.taskDao().setTaskSuspended(taskId, suspended)
+            }
+        }
+    }
+
+    fun restoreTask(taskEntity: TaskEntity) {
+        activity.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                db.taskDao().setTaskSuspended(taskEntity.id, false)
+            }
+        }
+    }
+
+    fun suspendTask(taskEntity: TaskEntity) {
+        activity.lifecycleScope.launch {
+            withContext(Dispatchers.IO) {
+                db.taskDao().setTaskSuspended(taskEntity.id, true)
             }
         }
     }

@@ -71,6 +71,10 @@ class RecyclerTaskAdapter(
                 onBindData.deleteData((data))
             }
 
+            binding.imgSuspend.setOnClickListener {
+                onBindData.suspendData(data)
+            }
+
             binding.root.setOnClickListener {
                 onItemClick(data)
             }
@@ -82,7 +86,7 @@ class RecyclerTaskAdapter(
         private val binding: RecyclerItemSuspendedBinding
     ) : ViewHolder(binding.root) {
 
-        fun setData(data: TaskEntity) {
+        fun setData(data: TaskEntity, onBindData: OnBindData) {
             binding.txtTaskTitleSuspended.text = data.title
             binding.txtPrioritySuspended.text = data.priority
 
@@ -101,6 +105,23 @@ class RecyclerTaskAdapter(
                 "انقضا: ${data.expiryDate}"
             } else {
                 "انقضا: تاریخ نامشخص"
+            }
+
+            if (data.suspended) {
+                binding.txtSuspendedLabel.text = "معلق (دستی)"
+            } else {
+                binding.txtSuspendedLabel.text = "منقضی شده"
+                binding.txtSuspendedLabel.setBackgroundColor(
+                    ContextCompat.getColor(binding.root.context, R.color.status_warning)
+                )
+            }
+
+            binding.btnRestore.setOnClickListener {
+                onBindData.restoreData(data)
+            }
+
+            binding.btnDeleteSuspended.setOnClickListener {
+                onBindData.deleteData(data)
             }
 
             binding.root.setOnClickListener {
@@ -139,7 +160,7 @@ class RecyclerTaskAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val task = tasks[position]
         if (isSuspendedMode) {
-            (holder as SuspendedTaskViewHolder).setData(task)
+            (holder as SuspendedTaskViewHolder).setData(task, onBindData)
         } else {
             (holder as TaskViewHolder).setData(task)
         }

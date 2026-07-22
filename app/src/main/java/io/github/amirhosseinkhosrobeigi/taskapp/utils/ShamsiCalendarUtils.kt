@@ -69,6 +69,36 @@ object ShamsiCalendarUtils {
         }.joinToString("")
     }
 
+    fun isDateExpired(expiryDate: String): Boolean {
+        if (expiryDate.isEmpty()) return false
+        
+        try {
+            val englishDate = toEnglishNumbers(expiryDate)
+            val parts = englishDate.split("/")
+            if (parts.size != 3) return false
+            
+            val expiryYear = parts[0].toInt()
+            val expiryMonth = parts[1].toInt()
+            val expiryDay = parts[2].toInt()
+            
+            val today = getCurrentShamsiDate()
+            
+            // Compare year
+            if (expiryYear < today.year) return true
+            if (expiryYear > today.year) return false
+            
+            // Same year, compare month
+            if (expiryMonth < today.month) return true
+            if (expiryMonth > today.month) return false
+            
+            // Same month, compare day
+            return expiryDay < today.day
+            
+        } catch (e: Exception) {
+            return false
+        }
+    }
+
     fun toEnglishNumbers(number: String): String {
         val persian = "۰۱۲۳۴۵۶۷۸۹"
         val english = "0123456789"

@@ -58,6 +58,27 @@
             android:gravity="end|center_vertical"
             android:orientation="horizontal">
 
+            <Button
+                android:id="@+id/btnDeleteSuspended"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:backgroundTint="@color/status_error"
+                android:text="حذف"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btnRestore"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/button_success"
+                android:text="بازیابی"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
             <TextView
                 android:id="@+id/txtExpiryDate"
                 android:layout_width="wrap_content"
